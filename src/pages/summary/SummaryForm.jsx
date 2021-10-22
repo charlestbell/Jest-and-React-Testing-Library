@@ -6,7 +6,6 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 export default function SummaryForm({ setOrderPhase }) {
   const [tcChecked, setTcChecked] = useState(false);
-
   const popover = (
     <Popover id="termsandconditions-popover">
       <Popover.Content>No ice cream will actually be delivered</Popover.Content>
