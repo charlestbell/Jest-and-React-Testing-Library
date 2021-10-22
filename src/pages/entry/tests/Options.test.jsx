@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
 import Options from "../Options";
+import { OrderDetailsProvider } from "../../../contexts/OrderDetails";
 
 test("displays image for each scoop option from server", async () => {
-  render(<Options optionType="scoops" />);
+  render(<Options optionType="scoops" />, { wrapper: OrderDetailsProvider });
   const scoopImages = await screen.findAllByRole("img", { name: /scoop$/i });
   expect(scoopImages).toHaveLength(2);
 
@@ -12,7 +13,7 @@ test("displays image for each scoop option from server", async () => {
 });
 
 test("displays image for each topping option from server", async () => {
-  render(<Options optionType="toppings" />);
+  render(<Options optionType="toppings" />, { wrapper: OrderDetailsProvider });
   const toppingImages = await screen.findAllByRole("img");
   expect(toppingImages).toHaveLength(3);
 

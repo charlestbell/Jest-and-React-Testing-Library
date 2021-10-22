@@ -3,8 +3,8 @@ import { pricePerItem } from "../constants/index";
 
 const OrderDetails = createContext();
 
-// create a custom hook to check whether we're inside a provider
-export function useOrderDetails() {
+// create custom hook to check whether we're inside a provider
+function useOrderDetails() {
   const context = useContext(OrderDetails);
 
   if (!context) {
@@ -25,7 +25,7 @@ function calculateSubtotal(optionType, optionCounts) {
   return optionCount * pricePerItem[optionType];
 }
 
-export function OrderDetailsProvider(props) {
+function OrderDetailsProvider(props) {
   const [optionCounts, setOptionCounts] = useState({
     scoops: new Map(),
     toppings: new Map(),
@@ -40,11 +40,11 @@ export function OrderDetailsProvider(props) {
   useEffect(() => {
     const scoopsSubtotal = calculateSubtotal("scoops", optionCounts);
     const toppingsSubtotal = calculateSubtotal("toppings", optionCounts);
-    const grantTotal = scoopsSubtotal + toppingsSubtotal;
+    const grandTotal = scoopsSubtotal + toppingsSubtotal;
     setTotals({
       scoops: scoopsSubtotal,
       toppings: toppingsSubtotal,
-      grantTotal,
+      grandTotal,
     });
   }, [optionCounts]);
 
@@ -67,3 +67,5 @@ export function OrderDetailsProvider(props) {
 
   return <OrderDetails.Provider value={value} {...props} />;
 }
+
+export { OrderDetailsProvider, useOrderDetails };

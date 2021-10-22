@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/user-event";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
-import OrderDetailsProvider from "../../../contexts/OrderDetails";
+import { OrderDetailsProvider } from "../../../contexts/OrderDetails";
 
 it("update scoop subtotal when scoops change", async () => {
   render(<Options optionType="scoops" />, { wrapper: OrderDetailsProvider });
