@@ -1,11 +1,11 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import { pricePerItem } from "../constants/index";
+import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { pricePerItem } from '../constants';
 
 // Format number as currency
 function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-US", {
-    stsyle: "currency",
-    currency: "USD",
+  return new Intl.NumberFormat('en-US', {
+    stsyle: 'currency',
+    currency: 'USD',
     minimumFractionDigits: 2,
   }).format(amount);
 }
@@ -18,7 +18,7 @@ function useOrderDetails() {
 
   if (!context) {
     throw new Error(
-      "useOrderDetails must be used within an OrderDetailsProvider"
+      'useOrderDetails must be used within an OrderDetailsProvider'
     );
   }
 
@@ -48,8 +48,8 @@ function OrderDetailsProvider(props) {
   });
 
   useEffect(() => {
-    const scoopsSubtotal = calculateSubtotal("scoops", optionCounts);
-    const toppingsSubtotal = calculateSubtotal("toppings", optionCounts);
+    const scoopsSubtotal = calculateSubtotal('scoops', optionCounts);
+    const toppingsSubtotal = calculateSubtotal('toppings', optionCounts);
     const grandTotal = scoopsSubtotal + toppingsSubtotal;
     setTotals({
       scoops: formatCurrency(scoopsSubtotal),
