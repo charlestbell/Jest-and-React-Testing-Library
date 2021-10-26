@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import { pricePerItem } from '../constants';
-import { formatCurrency } from '../utilities/index';
+import { formatCurrency } from '../utilities';
 
+// @ts-ignore
 const OrderDetails = createContext();
 
 // create custom hook to check whether we're inside a provider
-function useOrderDetails() {
+export function useOrderDetails() {
   const context = useContext(OrderDetails);
 
   if (!context) {
@@ -26,12 +27,11 @@ function calculateSubtotal(optionType, optionCounts) {
   return optionCount * pricePerItem[optionType];
 }
 
-function OrderDetailsProvider(props) {
+export function OrderDetailsProvider(props) {
   const [optionCounts, setOptionCounts] = useState({
     scoops: new Map(),
     toppings: new Map(),
   });
-
   const zeroCurrency = formatCurrency(0);
   const [totals, setTotals] = useState({
     scoops: zeroCurrency,
@@ -53,21 +53,24 @@ function OrderDetailsProvider(props) {
   const value = useMemo(() => {
     function updateItemCount(itemName, newItemCount, optionType) {
       const newOptionCounts = { ...optionCounts };
-      // update option count for this itme with new value
 
+      // update option count for this item with the new value
       const optionCountsMap = optionCounts[optionType];
       optionCountsMap.set(itemName, parseInt(newItemCount));
 
       setOptionCounts(newOptionCounts);
     }
 
-    // getter: object containing option counts for scoops and toppings, subtotals and totals.
+    function resetOrder() {
+      console.log('resetOrder Fired');
+      setOptionCounts({
+        scoops: new Map(),
+        toppings: new Map(),
+      });
+    }
+    // getter: object containing option counts for scoops and toppings, subtotals and totals
     // setter: updateOptionCount
-
-    return [{ ...optionCounts, totals }, updateItemCount];
+    return [{ ...optionCounts, totals }, updateItemCount, resetOrder];
   }, [optionCounts, totals]);
-
   return <OrderDetails.Provider value={value} {...props} />;
 }
-
-export { OrderDetailsProvider, useOrderDetails };
